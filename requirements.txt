@@ -1,0 +1,9 @@
+# AreaGuard - initial Python dependencies (Day 1)
+# Install with: pip install -r requirements.txt
+
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+jupyter
