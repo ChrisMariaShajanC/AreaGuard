@@ -218,3 +218,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+# AreaGuard additions
+# Large downloaded datasets
+data/raw/*.csv
+data/raw/*.zip
+data/raw/*.json
+data/raw/*.parquet
+data/raw/*.xlsx
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
