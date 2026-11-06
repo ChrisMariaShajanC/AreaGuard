@@ -92,6 +92,18 @@ Future days will focus on data collection, validation, exploratory analysis, and
 
 ---
 
+## Day 2 Progress — Dataset Research & ML Problem Definition
+
+- Primary research direction set to **Kerala landslide susceptibility mapping**.
+- Candidate datasets researched and documented in `docs/DATASET_RESEARCH.md`.
+- ML problem defined (binary classification, features, metrics, leakage risks) in `docs/ML_PROBLEM_DEFINITION.md`.
+- Dataset selection and verification status documented in `docs/DATASET_SELECTION.md`.
+- No datasets downloaded, no models trained, no predictions generated.
+
+---
+
+---
+
 ## Getting Started
 
 1. Clone the repository.
