@@ -99,6 +99,19 @@ Future days will focus on data collection, validation, exploratory analysis, and
 - ML problem defined (binary classification, features, metrics, leakage risks) in `docs/ML_PROBLEM_DEFINITION.md`.
 - Dataset selection and verification status documented in `docs/DATASET_SELECTION.md`.
 - No datasets downloaded, no models trained, no predictions generated.
+## Day 3 Progress — Dataset Inspection
+
+- Inspected the real Kerala Landslide Inventory 2018 shapefile (`data/raw/kerala_landslide_2018/`).
+- Confirmed 4,728 point records, CRS EPSG:4326, 21 attribute columns.
+- Checked missing values, duplicates, invalid/empty geometries (none invalid/empty; 2 columns have many missing values).
+- Extracted and summarized metadata from `metadata.pdf` (attribute definitions, land-use and reason codes).
+- Generated a point map: `reports/figures/kerala_landslide_locations.png`.
+- Findings documented in `docs/DATASET_INSPECTION.md`.
+- Inspection script: `src/inspect_dataset.py`.
+- No original dataset files modified; no models trained; no predictions generated.
+
+---
+
 
 ---
 

@@ -226,6 +226,11 @@ data/raw/*.json
 data/raw/*.parquet
 data/raw/*.xlsx
 
+# Ignore downloaded datasets (keep README)
+data/raw/*
+!data/raw/README.md
+
+
 # Temporary files
 tmp/
 temp/
