@@ -117,6 +117,19 @@ Future days will focus on data collection, validation, exploratory analysis, and
 
 ---
 
+## Day 4 Progress — Exploratory Data Analysis
+
+- Performed EDA on the real Kerala Landslide Inventory 2018 shapefile (`data/raw/kerala_landslide_2018/`).
+- Verified 4,728 point records, 21 columns, CRS EPSG:4326 against Day 3 inspection.
+- Analyzed district counts, landslide types, area/length/width distributions, zero values, missing values, land use 2010/2018, source distributions and geographic distribution.
+- Generated 7 charts under `reports/figures/` (district counts, type distribution, area distribution, length/width distribution, land-use comparison, source distribution, geographic by type).
+- Documented data-quality findings: 420 zero Area records (GSI-only, no measurement), 3,069 zero Length/Width records (unmeasured), missing `Specific_r`/`Remarks`, undefined `QUA` code, non-unique `No`, area outlier.
+- Reusable script: `src/eda.py`.
+- Findings documented in `docs/EDA_REPORT.md`.
+- No original dataset files modified; no models trained; no predictions generated.
+
+---
+
 ## Getting Started
 
 1. Clone the repository.
