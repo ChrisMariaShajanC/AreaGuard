@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AreaGuard — Kerala Landslide Explorer</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>AreaGuard</h1>
+      <p>Kerala Landslide Inventory 2018 — Interactive Explorer</p>
+    </div>
+    <div class="status-pill" id="data-status">Loading data…</div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <section class="panel">
+        <h2>Filters</h2>
+        <label for="district-filter">District</label>
+        <select id="district-filter">
+          <option value="all">All districts</option>
+        </select>
+
+        <fieldset class="type-filter">
+          <legend>Landslide type</legend>
+          <label><input type="checkbox" value="DF" checked /> DF — Debris flow</label>
+          <label><input type="checkbox" value="SS" checked /> SS — Surficial slide</label>
+          <label><input type="checkbox" value="RF" checked /> RF — Rock fall</label>
+        </fieldset>
+      </section>
+
+      <section class="panel">
+        <h2>Summary</h2>
+        <div class="cards">
+          <div class="card"><span class="card-label">Landslides</span><span class="card-value" id="stat-total">0</span></div>
+          <div class="card"><span class="card-label">Districts</span><span class="card-value" id="stat-districts">0</span></div>
+          <div class="card"><span class="card-label">Debris flows</span><span class="card-value" id="stat-df">0</span></div>
+          <div class="card"><span class="card-label">Surficial slides</span><span class="card-value" id="stat-ss">0</span></div>
+          <div class="card"><span class="card-label">Rock falls</span><span class="card-value" id="stat-rf">0</span></div>
+          <div class="card"><span class="card-label">Area = 0</span><span class="card-value" id="stat-zero-area">0</span></div>
+          <div class="card"><span class="card-label">L/W = 0</span><span class="card-value" id="stat-zero-lw">0</span></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <p class="hint">Data source: real Kerala Landslide Inventory 2018 shapefile (EPSG:4326). Click a marker for record details.</p>
+      </section>
+    </aside>
+
+    <section class="map-panel">
+      <div id="map"></div>
+      <div id="loading-state" class="state-overlay">
+        <div class="spinner"></div>
+        <p>Loading landslide data…</p>
+      </div>
+      <div id="error-state" class="state-overlay hidden">
+        <p>Failed to load data. Check the server and try again.</p>
+        <button id="retry-btn">Retry</button>
+      </div>
+      <div id="empty-state" class="state-overlay hidden">
+        <p>No landslides match the selected filters.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="/app.js"></script>
+</body>
+</html>
+"""
