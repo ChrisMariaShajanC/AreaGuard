@@ -29,6 +29,7 @@ const els = {
   rf: document.getElementById("stat-rf"),
   zeroArea: document.getElementById("stat-zero-area"),
   zeroLw: document.getElementById("stat-zero-lw"),
+  terrain: document.getElementById("terrain-info"),
 };
 
 function showState(name) {
@@ -65,6 +66,10 @@ function popupHtml(p) {
     ["Latitude", p.POINT_Y],
     ["Reclassified slope", p.Reclass_Sl],
     ["Slope (°)", p.RASTERVALU],
+    ["Elevation (m)", p.elevation_m],
+    ["Slope (°, terrain)", p.slope_deg],
+    ["Aspect (°)", p.aspect_deg],
+    ["Terrain status", p.terrain_status],
   ];
   return rows
     .map(([k, v]) => `<div class="popup-row"><span class="popup-key">${k}</span><span class="popup-val">${formatValue(v)}</span></div>`)
@@ -72,6 +77,20 @@ function popupHtml(p) {
 }
 
 function filteredFeatures() {
+function showTerrain(p) {
+  const rows = [
+    ["Elevation (m)", formatValue(p.elevation_m)],
+    ["Slope (°)", formatValue(p.slope_deg)],
+    ["Aspect (°)", formatValue(p.aspect_deg)],
+    ["Status", formatValue(p.terrain_status)],
+    ["DEM source", formatValue(p.dem_source)],
+  ];
+  els.terrain.innerHTML = rows
+    .map(([k, v]) => `<div class="t-row"><span class="t-key">${k}</span><span class="t-val">${v}</span></div>`)
+    .join("");
+}
+
+
   if (!state.geojson) return [];
   return state.geojson.features.filter((f) => {
     const p = f.properties;
@@ -108,6 +127,7 @@ function renderMarkers(features) {
       fillOpacity: 0.7,
     });
     marker.bindPopup(popupHtml(f.properties), { maxWidth: 320 });
+    marker.on("click", () => showTerrain(f.properties));
     marker.addTo(markerLayer);
   });
 }

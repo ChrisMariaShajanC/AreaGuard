@@ -159,3 +159,7 @@ select {
   .map-panel { min-height: 55vh; }
 }
 """
+.terrain-info { font-size: 13px; color: var(--text); line-height: 1.5; }
+.terrain-info .t-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid var(--border); }
+.terrain-info .t-key { color: var(--muted); }
+.terrain-info .t-val { font-weight: 600; }
