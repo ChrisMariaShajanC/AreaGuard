@@ -14,10 +14,50 @@ from urllib.parse import urlparse, parse_qs
 import json
 import os
 
+_terrain_cache = None
+
+
+def _num(value):
+    if value is None or value == "":
+        return None
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        return None
+    if v != v:
+        return None
+    return v
+
+
+def load_terrain():
+    global _terrain_cache
+    if _terrain_cache is not None:
+        return _terrain_cache
+    if not TERRAIN_CSV.exists():
+        _terrain_cache = {}
+        return _terrain_cache
+    result = {}
+    with TERRAIN_CSV.open("r", encoding="utf-8", newline="") as f:
+        import csv
+        for row in csv.DictReader(f):
+            try:
+                idx = int(row["record_index"])
+            except (TypeError, ValueError, KeyError):
+                continue
+            result[idx] = {
+                "elevation_m": _num(row.get("elevation_m")),
+                "slope_deg": _num(row.get("slope_deg")),
+                "aspect_deg": _num(row.get("aspect_deg")),
+                "terrain_status": row.get("coverage_status") or None,
+                "dem_source": row.get("dem_source") or None,
+            }
+    _terrain_cache = result
+    return _terrain_cache
 import geopandas as gpd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SHAPEFILE = PROJECT_ROOT / "data" / "raw" / "kerala_landslide_2018" / "Kerela landslide.shp"
+TERRAIN_CSV = PROJECT_ROOT / "data" / "processed" / "terrain_features.csv"
 WEB_DIR = PROJECT_ROOT / "web"
 
 _geojson_cache = None
@@ -33,6 +73,15 @@ def load_geojson():
     if gdf.crs is None or gdf.crs.to_epsg() != 4326:
         gdf = gdf.to_crs("EPSG:4326")
     _geojson_cache = json.loads(gdf.to_json())
+    terrain = load_terrain()
+    for i, feat in enumerate(_geojson_cache["features"]):
+        props = feat["properties"]
+        t = terrain.get(i, {})
+        props["elevation_m"] = t.get("elevation_m")
+        props["slope_deg"] = t.get("slope_deg")
+        props["aspect_deg"] = t.get("aspect_deg")
+        props["terrain_status"] = t.get("terrain_status")
+        props["dem_source"] = t.get("dem_source")
     return _geojson_cache
 
 
@@ -75,6 +124,24 @@ class Handler(SimpleHTTPRequestHandler):
             return
         if parsed.path == "/api/health":
             body = json.dumps({"status": "ok"}).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+        if parsed.path == "/api/terrain":
+            terrain = load_terrain()
+            available = TERRAIN_CSV.exists()
+            if available:
+                records = []
+                with TERRAIN_CSV.open("r", encoding="utf-8", newline="") as f:
+                    import csv
+                    for row in csv.DictReader(f):
+                        records.append(row)
+                body = json.dumps({"available": True, "records": records}, ensure_ascii=False).encode("utf-8")
+            else:
+                body = json.dumps({"available": False, "records": []}, ensure_ascii=False).encode("utf-8")
             self.send_response(200)
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Content-Length", str(len(body)))
