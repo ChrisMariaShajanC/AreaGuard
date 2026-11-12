@@ -180,4 +180,3 @@ els.typeChecks.forEach((cb) => {
 els.retry.addEventListener("click", loadData);
 
 loadData();
-"""
